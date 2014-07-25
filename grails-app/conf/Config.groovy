@@ -19,7 +19,7 @@ log4j = {
             'grails.app.services.org.singularitylab.connector.payu'
 }
 
-grails.serverURL = "http://87.207.75.188:8080/payu-connector"
+grails.serverURL = "http://localhost:8080/payu-connector"
 
 payu {
     api {
@@ -32,6 +32,7 @@ payu {
             controller = "completed"
             action = "completeAction"
         }
+        serverURL = "http://83.30.171.219:8080/payu-connector"
     }
     mode = "test"
 }

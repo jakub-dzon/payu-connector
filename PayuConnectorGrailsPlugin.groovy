@@ -1,5 +1,5 @@
 class PayuConnectorGrailsPlugin {
-    def version = "1.0.0"
+    def version = "1.0.2"
     def grailsVersion = "2.2 > *"
     def pluginExcludes = [
             "grails-app/views/error.gsp"

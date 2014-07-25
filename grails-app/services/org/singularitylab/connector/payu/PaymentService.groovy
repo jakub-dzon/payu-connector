@@ -30,8 +30,6 @@ class PaymentService {
 
     def completeAction = Holders.config.payu.redirects.completed.action
 
-    def authKey = "${posId}:${key}".bytes.encodeBase64().toString()
-
     def restBuilder = new RestBuilder()
 
     /**
@@ -45,17 +43,18 @@ class PaymentService {
     def pay(Payment payment, String clientIp) {
         def paymentRequest = new PaymentDto(payment)
         paymentRequest.merchantPosId = posId
-        paymentRequest.notifyUrl = "${Holders.config.grails.serverURL}/payment/processNotification"
+        paymentRequest.notifyUrl = "${Holders.config.payu.redirects.serverURL}/payment/processNotification"
         paymentRequest.customerIp = clientIp
-        paymentRequest.completeUrl = "${Holders.config.grails.serverURL}/${completeController}/${completeAction}"
+        paymentRequest.completeUrl = "${Holders.config.payu.redirects.serverURL}/${completeController}/${completeAction}"
 
         requestPayment(paymentRequest)
     }
 
     private def requestPayment(PaymentDto paymentRequest) {
         def result = restBuilder.post(url) {
-            header 'Authorization', 'Basic ' + authKey
+            auth posId, key
             json paymentRequest
+            contentType 'application/json;charset=utf-8'
         }
 
         log.info(result.text)
